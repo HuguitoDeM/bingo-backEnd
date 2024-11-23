@@ -14,7 +14,8 @@
     "bcrypt": "^5.1.1",
     "config": "^3.3.12",
     "db-local": "^3.1.0",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "uuid": "^11.0.3"
   },
   "packageManager": "pnpm@9.1.2+sha1.907f57a52517de34399d66401bf220a549e47b57"
 }

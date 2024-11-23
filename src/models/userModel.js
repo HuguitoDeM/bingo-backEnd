@@ -1,5 +1,6 @@
-import { generarTablerosUnicos } from "../../generateTable";
-
+import { generarTablerosUnicos } from "../../generateTable.js";
+import bcrytp from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
 class AbstractModel {
   constructor() {
     if (this.constructor === AbstractModel) {
@@ -11,17 +12,28 @@ class AbstractModel {
   }
 }
 
-class UserModel extends AbstractModel {
+export class UserModel extends AbstractModel {
   constructor() {
     super();
     this.users = [];
   }
 
-  create(user) {
-    if (!user.id || !user.username) {
-      throw new Error("El usuario debe tener un ID y un nombre de usuario");
+  async create(user) {
+    if (!user.username) {
+      throw new Error("El usuario debe tener un nombre");
     }
-    this.users.push({ ...user, enCola: false, isPlaying: false });
+
+    const hashedPassword = await bcrytp.hash(user.password, 10);
+    const newUser = {
+      id: uuidv4(),
+      username: user.username,
+      password: hashedPassword,
+      enCola: false,
+      isPlaying: false,
+      tablero: null,
+    };
+    this.users.push(newUser);
+    return newUser;
   }
 
   getUsers() {
@@ -32,9 +44,21 @@ class UserModel extends AbstractModel {
     const user = this.users.find((user) => user.id === id);
     return user;
   }
+
+  async login(username, password) {
+    const user = this.users.find((user) => user.username === username);
+    if (!user) {
+      throw new Error("usuario no encontrado");
+    }
+    const Comparepasswords = await bcrytp.compare(password, user.password);
+    if (!Comparepasswords) {
+      throw new Error("Contraseña incorrecta");
+    }
+    return user;
+  }
 }
 
-class UserInGame extends UserModel {
+export class UserInGame extends UserModel {
   constructor() {
     super();
   }
@@ -71,5 +95,3 @@ class UserInGame extends UserModel {
     user.tablero = null;
   }
 }
-
-export default { UserModel, UserInGame };
