@@ -1,3 +1,5 @@
+import { generarTablerosUnicos } from "../../generateTable";
+
 class AbstractModel {
   constructor() {
     if (this.constructor === AbstractModel) {
@@ -47,6 +49,7 @@ class UserInGame extends UserModel {
     }
     user.enCola = false;
     user.isPlaying = true;
+    user.tablero = generarTablerosUnicos();
   }
 
   getPlayingUsers() {
