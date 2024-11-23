@@ -1,19 +1,33 @@
-import express from "express";
-
-import UserRouter from "./src/routes/UserRoutes.js";
+const express = require("express");
+const cors = require("cors");
+const cookieSession = require("cookie-session");
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+let corsOptions = {
+  origin: "http://localhost:8081",
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  cookieSession({
+    name: "bingo-session",
+    keys: ["COOKIE_SECRET"],
+    httpOnly: true,
+  })
+);
+
 app.get("/", (req, res) => {
-  res.send("hola mundo");
+  res.json({ message: "Welcome to Bingo application" });
 });
 
-app.use("/api", UserRouter);
+const PORT = process.env.port || 8080;
 
 app.listen(PORT, () => {
-  console.log("Server corriendo en ", PORT);
+  console.log(`server is running on port ${PORT}`);
 });
