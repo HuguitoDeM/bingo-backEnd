@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-
+const dotenv = require(".env");
 const app = express();
 
 let corsOptions = {
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const Role = db.role;
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(process.env.NUEVAURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

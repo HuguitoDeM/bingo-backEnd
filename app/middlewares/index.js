@@ -1,7 +1,7 @@
-const verifySingUp = require("./verifySignUp");
+const checkDuplicateUsernameOrEmail = require("./verifySignUp");
 const authJwt = require("./authJwt");
 
 module.exports = {
   authJwt,
-  verifySingUp,
+  checkDuplicateUsernameOrEmail,
 };

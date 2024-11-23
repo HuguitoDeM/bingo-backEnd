@@ -3,9 +3,8 @@ import userController from "../controllers/userController.js";
 
 const UserRouter = express.Router();
 
-UserRouter.post("/auth/signup", userController.createUser);
-UserRouter.post("/auth/signin", userController.createUser);
-UserRouter.post("/auth/signout", userController.createUser);
-UserRouter.get("/auth/test/user", userController.createUser);
+router.post("/signup", userController.signup);
+router.post("/signin", userController.signin);
+router.post("/signout", userController.signout);
 
 export default UserRouter;

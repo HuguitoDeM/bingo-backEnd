@@ -3,18 +3,12 @@ const mongoose = require("mongoose");
 const User = mongoose.model(
   "User",
   new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String,
-    inqueue: Boolean,
-    ingame: Boolean,
-    wins: Number,
-    roles: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Role",
-      },
-    ],
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    inqueue: { type: Boolean, default: false },
+    ingame: { type: Boolean, default: false },
+    wins: { type: Number, default: 0 },
   })
 );
 
