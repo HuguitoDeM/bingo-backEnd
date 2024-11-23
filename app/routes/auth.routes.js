@@ -1,17 +1,12 @@
-const checkDuplicateUsernameOrEmail = require("../middlewares");
-
+const checkDuplicateUsernameOrEmail = require("../middlewares/verifySignUp");
+const express = require("express");
 const controllers = require("../controllers/auth.controller");
 
-module.exports = function (app) {
-  app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
-    next();
-  });
-  app.post(
-    "/api/auth/singup",
-    [checkDuplicateUsernameOrEmail],
-    controllers.signup
-  );
-  app.post("/api/auth/singin", controllers.signin);
-  app.post("/api/auth/singout", controllers.signout);
-};
+const router = express.Router();
+
+// Rutas de autenticación
+router.post("/signup", [checkDuplicateUsernameOrEmail], controllers.signup);
+router.post("/signin", controllers.signin);
+router.post("/signout", controllers.signout);
+
+module.exports = router;

@@ -4,6 +4,9 @@ const cookieSession = require("cookie-session");
 const dotenv = require("dotenv");
 const app = express();
 
+const authRoutes = require("./app/routes/auth.routes");
+const userRoutes = require("./app/routes/User.routes");
+
 dotenv.config();
 let corsOptions = {
   origin: "http://localhost:8081",
@@ -26,6 +29,9 @@ db.mongoose
     console.error("Connection error", err);
     process.exit();
   });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/auth", userRoutes);
 
 app.use(
   cookieSession({
