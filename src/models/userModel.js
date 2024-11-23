@@ -7,10 +7,6 @@ class AbstractModel {
   create() {
     throw new Error("método create debe ser implementado");
   }
-
-  read() {
-    throw new Error("método read debe ser implementado");
-  }
 }
 
 class UserModel extends AbstractModel {
@@ -20,14 +16,10 @@ class UserModel extends AbstractModel {
   }
 
   create(user) {
-    this.users.push(user);
-  }
-
-  addUser(user) {
     if (!user.id || !user.username) {
       throw new Error("El usuario debe tener un ID y un nombre de usuario");
     }
-    this.users.push({ ...user, isPlaying: flase });
+    this.users.push({ ...user, enCola: false, isPlaying: false });
   }
 
   getUsers() {
@@ -40,11 +32,20 @@ class UserInGame extends UserModel {
     super();
   }
 
+  enCola(id) {
+    const user = this.users.find((user) => user.id === id);
+    if (!user) {
+      throw new Error("usuario no encontrado");
+    }
+    user.enCola = true;
+  }
+
   startPlaying(id) {
     const user = this.users.find((user) => user.id === id);
     if (!user) {
       throw new Error("usuario no encontrado");
     }
+    user.enCola = false;
     user.isPlaying = true;
   }
 
