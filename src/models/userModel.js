@@ -27,6 +27,11 @@ class UserModel extends AbstractModel {
   getUsers() {
     return [...this.users];
   }
+
+  getUser(id) {
+    const user = this.users.find((user) => user.id === id);
+    return user;
+  }
 }
 
 class UserInGame extends UserModel {
@@ -54,6 +59,16 @@ class UserInGame extends UserModel {
 
   getPlayingUsers() {
     return this.users.filter((user) => user.isPlaying);
+  }
+
+  finishPlay(id) {
+    const user = this.users.find((user) => user.id === id);
+    if (!user) {
+      throw new Error("usuario no encontrado");
+    }
+    user.enCola = false;
+    user.isPlaying = false;
+    user.tablero = null;
   }
 }
 
