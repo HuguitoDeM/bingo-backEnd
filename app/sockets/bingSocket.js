@@ -1,3 +1,4 @@
+const { checkWinCondition } = require("../game/checkBingoWin");
 const {
   RandomNumber,
   generarTablerosUnicos,
@@ -35,13 +36,24 @@ const setupBingoSocket = (io) => {
       io.emit("numberMarked", data);
     });
 
-    socket.on("declararWinner", (winner) => {
-      gameState.winner = winner;
-      console.log(`${winner.username} ganó el juego`);
-      io.emit("juego Terminado", winner);
-      gameState.players = [];
-      gameState.winner = null;
-      gameState.drawnNumbers = [];
+    socket.on("MarkBingo", (winner) => {
+      const winCondition = checkWinCondition(
+        winner.card,
+        gameState.drawnNumbers
+      );
+      if (winCondition) {
+        gameState.winner = winner;
+        console.log(`${winner.username} ganó el juego`);
+        io.emit("juego Terminado", winner);
+        gameState.players = [];
+        gameState.winner = null;
+        gameState.drawnNumbers = [];
+      } else {
+        console.log(`Jugador descalificado ${winner.username}`, winner.id);
+        gameState.players = gameState.players.filter(
+          (player) => player.id !== winner.id
+        );
+      }
     });
   });
 };
