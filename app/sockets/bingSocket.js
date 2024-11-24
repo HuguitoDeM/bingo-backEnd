@@ -1,4 +1,7 @@
-const { RandomNumber, generarTablerosUnicos } = require("../../generateTable");
+const {
+  RandomNumber,
+  generarTablerosUnicos,
+} = require("../game/generateTable");
 
 let gameState = {
   players: [],

@@ -20,6 +20,7 @@ export const generarTablerosUnicos = () => {
   getRandomArbitrary(46, 60);
   getRandomArbitrary(61, 75);
 
+  TableroUsuario[12] = "FREE";
   return TableroUsuario;
 };
 
