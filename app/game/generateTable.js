@@ -1,26 +1,21 @@
 export const generarTablerosUnicos = () => {
   const TableroUsuario = [];
-
   const getRandomArbitrary = (min, max) => {
-    for (let i = 0; i < 5; ) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      const numeroTablero = Math.floor(Math.random() * (max - min) + min);
-      if (!TableroUsuario.includes(numeroTablero)) {
-        TableroUsuario.push(numeroTablero);
-        i++;
-      }
+    const uniqueNumbers = new Set();
+    while (uniqueNumbers.size < 5) {
+      const number = Math.floor(Math.random() * (max - min + 1)) + min;
+      uniqueNumbers.add(number);
     }
-    return;
+    return Array.from(uniqueNumbers);
   };
 
-  getRandomArbitrary(1, 15);
-  getRandomArbitrary(16, 30);
-  getRandomArbitrary(31, 45);
-  getRandomArbitrary(46, 60);
-  getRandomArbitrary(61, 75);
+  TableroUsuario.push(getRandomArbitrary(1, 15));
+  TableroUsuario.push(getRandomArbitrary(16, 30));
+  TableroUsuario.push(getRandomArbitrary(31, 45));
+  TableroUsuario.push(getRandomArbitrary(46, 60));
+  TableroUsuario.push(getRandomArbitrary(61, 75));
 
-  TableroUsuario[12] = "FREE";
+  TableroUsuario[2][2] = "FREE";
   return TableroUsuario;
 };
 
