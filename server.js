@@ -3,9 +3,7 @@ const cors = require("cors");
 const cookieSession = require("cookie-session");
 const dotenv = require("dotenv");
 const app = express();
-
 const authRoutes = require("./app/routes/auth.routes");
-const userRoutes = require("./app/routes/User.routes");
 
 dotenv.config();
 let corsOptions = {
@@ -30,16 +28,16 @@ db.mongoose
     process.exit();
   });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/auth", userRoutes);
-
 app.use(
   cookieSession({
     name: "bingo-session",
-    keys: ["COOKIE_SECRET"],
+    keys: [process.env.COOKIE_SECRET],
     httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
   })
 );
+
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Bingo application" });
