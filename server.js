@@ -4,6 +4,19 @@ const cookieSession = require("cookie-session");
 const dotenv = require("dotenv");
 const app = express();
 const authRoutes = require("./app/routes/auth.routes");
+const { Server } = require("socket.io");
+const http = require("http");
+const conexión = require("./app/lib/connection");
+const setupBingoSocket = require("./app/sockets/bingSocket");
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:8081",
+    methods: ["GET", "POST"],
+  },
+});
 
 dotenv.config();
 let corsOptions = {
@@ -16,17 +29,9 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-const db = require("./app/models");
+conexión();
 
-db.mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-  })
-  .catch((err) => {
-    console.error("Connection error", err);
-    process.exit();
-  });
+setupBingoSocket(io);
 
 app.use(
   cookieSession({
