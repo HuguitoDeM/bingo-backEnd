@@ -9,29 +9,17 @@ const http = require("http");
 const conexión = require("./app/lib/connection");
 const setupBingoSocket = require("./app/sockets/bingSocket");
 
-const server = http.createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:8081",
-    methods: ["GET", "POST"],
-  },
-});
-
 dotenv.config();
+
 let corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "http://localhost:5173",
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
 
 conexión();
-
-setupBingoSocket(io);
 
 app.use(
   cookieSession({
@@ -48,8 +36,18 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to Bingo application" });
 });
 
-const PORT = process.env.port || 8080;
+const server = http.createServer(app);
 
-app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
+});
+
+setupBingoSocket(io);
+
+const PORT = process.env.PORT || 8080;
+server.listen(PORT, () => {
+  console.log(`Servidor está corriendo en el puerto ${PORT}`);
 });

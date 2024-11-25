@@ -6,7 +6,7 @@ export const generarTablerosUnicos = () => {
       const number = Math.floor(Math.random() * (max - min + 1)) + min;
       uniqueNumbers.add(number);
     }
-    return Array.from(uniqueNumbers);
+    return Array.from(uniqueNumbers).sort((a, b) => a - b);
   };
 
   TableroUsuario.push(getRandomArbitrary(1, 15));
@@ -15,7 +15,7 @@ export const generarTablerosUnicos = () => {
   TableroUsuario.push(getRandomArbitrary(46, 60));
   TableroUsuario.push(getRandomArbitrary(61, 75));
 
-  TableroUsuario[2][2] = "FREE";
+  TableroUsuario[2][2] = 0;
   return TableroUsuario;
 };
 
