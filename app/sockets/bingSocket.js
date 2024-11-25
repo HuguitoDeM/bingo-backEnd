@@ -53,6 +53,9 @@ const setupBingoSocket = (io) => {
         gameState.players = gameState.players.filter(
           (player) => player.id !== winner.id
         );
+        socket.emit("descalificado", {
+          message: "No tienes un Bingo. Has sido descalificado.",
+        });
       }
     });
   });
